@@ -31,8 +31,14 @@ app.get("/api/:date?", function (req, res) {
 
   // Handle empty date 
   if (!date) {
-    parsedDate = new Date();
-  } else if (!isNaN(date)) {
+  let  now = new Date();
+  return res.json({
+    unix: now.getTime(),
+    utc: now.toUTCString(),
+  });
+}
+   
+   if (!isNaN(date)) {
     // Handle Unix timestamp
     parsedDate = new Date(parseInt(date));
   } else {
