@@ -23,13 +23,18 @@ app.get("/", function (req, res) {
 app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
-const date= new Date();
-const dateUtc= date.toUTCString();
-const unix = date.getTime();
-app.get("/api/{date}", function (req, res) {
-  res.json({unix: unix, utc:dateUtc});
+
+app.get("/api/:date?", function (req, res) {
+  const {date}= req.params;
+  console.log(date);
+  let dateUtc=new Date(date);
+  console.log(dateUtc);
+  let unix = dateUtc.getTime();
+  res.json({unix: unix, utc:dateUtc.toUTCString()});
 });
-app.get("/api/{unix}", function (req, res) {
+app.get("/api/:unix?", function (req, res) {
+const {unix} =req.params;
+let dateUtc=new Date(unix*1000);
   res.json({unix: unix, utc:dateUtc});
 });
 // Listen on port set in environment variable or default to 3000
